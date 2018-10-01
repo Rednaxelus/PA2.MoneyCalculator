@@ -5,19 +5,27 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MoneyCalculator {
-
     public static void main(String[] args) throws Exception {
       MoneyCalculator moneyCalculator = new MoneyCalculator();
       moneyCalculator.execute();       
     }
 
     private double amount;
+    private Map<String, Currency> currencies = new HashMap<>();
+    private Currency currencyFrom;
+    private Currency currencyTo;
     private double exchangeRate;
-    private String currencyFrom;
-    private String currencyTo;
+
+    public MoneyCalculator(){
+        currencies.put("USD", new Currency("USD", "Dólar americano", "$"));
+        currencies.put("EUR", new Currency("EUR", "Euros", "€"));
+        currencies.put("GBP", new Currency("GBP", "Libras Esterlinas", "£"));
+    }
     
     private void execute() throws Exception{
         input();
@@ -31,19 +39,20 @@ public class MoneyCalculator {
         amount = Double.parseDouble(scanner.next());
         
         System.out.println("Introduzca divisa origen");
-        currencyFrom = scanner.next().toUpperCase();   
+        currencyFrom = currencies.get(scanner.next().toUpperCase());   
 
         System.out.println("Introduzca divisa destino");
-        currencyTo = scanner.next().toUpperCase();   
+        currencyTo = currencies.get(scanner.next().toUpperCase());
     }
     
     private void process() throws Exception{
-        exchangeRate = getExchangeRate(currencyFrom, currencyTo);
+        exchangeRate = getExchangeRate(currencyFrom.getCode(), currencyTo.getCode());
     }
     
     private void output(){
-        System.out.println(amount + " " + currencyFrom + " equivalen a " 
-                + amount * exchangeRate + " " + currencyTo);
+        System.out.println(amount + " " + currencyFrom.getSymbol() 
+                + " equivalen a " + amount * exchangeRate + " "
+                + currencyTo.getSymbol());
     }
     
     private static double getExchangeRate(String from, String to) throws IOException {
