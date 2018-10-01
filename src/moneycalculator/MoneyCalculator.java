@@ -10,23 +10,23 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class MoneyCalculator {
+
     public static void main(String[] args) throws Exception {
       MoneyCalculator moneyCalculator = new MoneyCalculator();
       moneyCalculator.execute();       
     }
 
-    private double amount;
     private Map<String, Currency> currencies = new HashMap<>();
-    private Currency currencyFrom;
+    private Money money;
     private Currency currencyTo;
     private double exchangeRate;
 
-    public MoneyCalculator(){
-        currencies.put("USD", new Currency("USD", "Dólar americano", "$"));
-        currencies.put("EUR", new Currency("EUR", "Euros", "€"));
-        currencies.put("GBP", new Currency("GBP", "Libras Esterlinas", "£"));
+    public MoneyCalculator() {
+        currencies.put("USD", new Currency("USD","Dolar americano","$"));
+        currencies.put("EUR", new Currency("EUR","Euro","€"));        
+        currencies.put("GBP", new Currency("GBP","Libra","£"));        
     }
-    
+       
     private void execute() throws Exception{
         input();
         process();
@@ -36,23 +36,27 @@ public class MoneyCalculator {
     private void input(){
         System.out.println("Introduzca cantidad");
         Scanner scanner = new Scanner(System.in);
-        amount = Double.parseDouble(scanner.next());
+        double amount = Double.parseDouble(scanner.next());
         
-        System.out.println("Introduzca divisa origen");
-        currencyFrom = currencies.get(scanner.next().toUpperCase());   
+        System.out.println("Introduzca código divisa origen");
+        Currency currency = currencies.get(scanner.next().toUpperCase());   
 
-        System.out.println("Introduzca divisa destino");
+        money = new Money(amount, currency);
+        
+        System.out.println("Introduzca código divisa destino");
         currencyTo = currencies.get(scanner.next().toUpperCase());
     }
     
     private void process() throws Exception{
-        exchangeRate = getExchangeRate(currencyFrom.getCode(), currencyTo.getCode());
+        exchangeRate = getExchangeRate(money.getCurrency().getCode(), 
+                currencyTo.getCode());
     }
     
     private void output(){
-        System.out.println(amount + " " + currencyFrom.getSymbol() 
-                + " equivalen a " + amount * exchangeRate + " "
-                + currencyTo.getSymbol());
+        System.out.println(money.getAmount() + " " + 
+                money.getCurrency().getSymbol() 
+                + " equivalen a " + money.getAmount() * exchangeRate 
+                + " " + currencyTo.getSymbol());
     }
     
     private static double getExchangeRate(String from, String to) throws IOException {
