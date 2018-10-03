@@ -1,18 +1,23 @@
 package moneycalculator.model;
 
-public class Currency {
-    private final String code;
-    private final String name;
-    private final String symbol;
+public enum Currency {
+    
+    EUR("EUR","euros","€"),
+    GBP("GBP","libras","£"),
+    USD("USD","dolares","$");
 
-    public Currency(String code, String name, String symbol) {
-        this.code = code;
+    private String isoCode; 
+    private String name; 
+    private String symbol; 
+
+    private Currency(String isoCode, String name, String symbol) {
+        this.isoCode = isoCode;
         this.name = name;
         this.symbol = symbol;
     }
 
-    public String getCode() {
-        return code;
+    public String getIsoCode() {
+        return isoCode;
     }
 
     public String getName() {
@@ -22,4 +27,5 @@ public class Currency {
     public String getSymbol() {
         return symbol;
     }
+
 }
