@@ -4,7 +4,8 @@ public enum Currency {
     
     EUR("EUR","euros","€"),
     GBP("GBP","libras","£"),
-    USD("USD","dolares","$");
+    USD("USD","dolares","$"),
+    FJD("FJD","d","2");
 
     private String isoCode; 
     private String name; 

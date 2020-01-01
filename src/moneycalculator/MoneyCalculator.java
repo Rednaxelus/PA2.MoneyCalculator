@@ -1,8 +1,11 @@
 package moneycalculator;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDate;
@@ -11,6 +14,7 @@ import java.util.Scanner;
 import moneycalculator.model.Currency;
 import moneycalculator.model.ExchangeRate;
 import moneycalculator.model.Money;
+import org.json.JSONObject;
 
 public class MoneyCalculator {
 
@@ -51,25 +55,43 @@ public class MoneyCalculator {
     
     private void output(){
         System.out.println(money.getAmount() + " " + currencyFrom.getSymbol()
-                + " equivalen a " + money.getAmount() * exchangeRate.getRate()
+                + " convert to " + money.getAmount() * exchangeRate.getRate()
                 + " " + currencyTo.getSymbol());
     }
     
     private static ExchangeRate getExchangeRate(Currency from, Currency to) 
             throws IOException {
-        URL url = 
-            new URL("http://free.currencyconverterapi.com/api/v5/convert?q=" +
-                    from.getIsoCode() + "_" + to.getIsoCode() + "&compact=y");
-        URLConnection connection = url.openConnection();
-        try (BufferedReader reader = 
-                new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()))) {
-            String line = reader.readLine();
-            String line1 = line.substring(line.indexOf(to.getIsoCode())+12, 
-                    line.indexOf("}"));
-            return new ExchangeRate(from, to, 
-                    LocalDate.of(2018, Month.OCTOBER, 3), 
-                    Double.parseDouble(line1));
+      
+        
+        // Setting URL
+String url_str = "https://api.exchangerate-api.com/v4/latest/" + from.getIsoCode();
+
+// Making Request
+URL url = new URL(url_str);
+HttpURLConnection request = (HttpURLConnection) url.openConnection();
+request.connect();
+
+    // read from the URL
+    Scanner scan = new Scanner(url.openStream());
+    String str = new String();
+    while (scan.hasNext())
+        str += scan.nextLine();
+    scan.close();
+    
+    
+        System.out.println(str);
+    
+    // build a JSON object
+    JSONObject obj = new JSONObject(str);
+
+
+    // get the first result
+
+    double res = obj.getJSONObject("rates").getDouble("EUR");
+        System.out.println("result: " + res);
+        
+        return new ExchangeRate(from, to, 
+                    LocalDate.now(), 
+                    res);
         }
     }
-}
