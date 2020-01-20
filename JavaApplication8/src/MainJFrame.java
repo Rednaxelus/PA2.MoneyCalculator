@@ -1,9 +1,6 @@
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
-
-
 
 /*
  * For questions about licensing ask.
@@ -12,22 +9,22 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Alex
  */
-public class MainJFrame extends javax.swing.JFrame {
+public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
 
-    ExchangeCalculator moneyCalculator;
+    private final ArrayList<CustomObserver> observers;
 
     /**
      * Creates new form MainJFrame
+     *
      * @param currencyISOCodes
      */
     public MainJFrame(String[] currencyISOCodes) {
+        this.observers = new ArrayList<>();
         initComponents();
 
         jComboBox1.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
         jComboBox2.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
         jComboBox2.setSelectedIndex(1);
-
-        moneyCalculator = new ExchangeCalculator();
     }
 
     /**
@@ -154,20 +151,10 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        double result = 0.0;
-        String from = jComboBox1.getSelectedItem().toString();
-        String to = jComboBox2.getSelectedItem().toString();
-
-
-        try {
-            result = moneyCalculator.getResult(from, to);
-        } catch (IOException ex) {
-            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        for (CustomObserver observer : observers) {
+            observer.buttonPressed();
         }
-
-        jLabelResult.setText(String.format("%.2f", result * Double.valueOf(jTextFieldAmount.getText())) + Currency.valueOf(to).getSymbol());
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -181,4 +168,26 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldAmount;
     // End of variables declaration//GEN-END:variables
+
+    String obtainCurrencyFrom() {
+        return jComboBox1.getSelectedItem().toString();
+    }
+
+    String obtainCurrencyTo() {
+        return jComboBox2.getSelectedItem().toString();
+    }
+
+    void showResultOfCalculation(String result) {
+        jLabelResult.setText(result);
+    }
+
+    double getAmount() {
+        return Double.valueOf(jTextFieldAmount.getText());
+    }
+
+    @Override
+    public void addObserver(CustomObserver observer) {
+        observers.add(observer);
+    }
+
 }

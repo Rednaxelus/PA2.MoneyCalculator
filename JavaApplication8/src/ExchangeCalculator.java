@@ -1,14 +1,39 @@
 
+import model.Currency;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 
-public class ExchangeCalculator {
+public class ExchangeCalculator implements CustomObserver {
 
-    public double getResult(String from, String to) throws MalformedURLException, IOException {
+    MainJFrame mainJFrame;
+
+    void execute() {
+        mainJFrame = new MainJFrame(getCurrenciyISOCodes());
+
+        mainJFrame.setLocationRelativeTo(null);
+        mainJFrame.addObserver(this);
+        mainJFrame.setVisible(true);
+    }
+
+    private String[] getCurrenciyISOCodes() {
+        Currency[] currencies = Currency.values();
+        String[] str = new String[currencies.length];
+
+        for (int i = 0; i < currencies.length; i++) {
+            str[i] = currencies[i].getIsoCode();
+        }
+
+        return str;
+
+    }
+
+    private double getExchangeRateResult(String from, String to) throws MalformedURLException, IOException {
         // Setting URL
         String url_str = "https://api.exchangerate-api.com/v4/latest/" + from;
 
@@ -33,4 +58,23 @@ public class ExchangeCalculator {
         double res = obj.getJSONObject("rates").getDouble(to);
         return res;
     }
+
+    @Override
+    public void buttonPressed() {
+
+        Currency from = Currency.valueOf(mainJFrame.obtainCurrencyFrom());
+        Currency to = Currency.valueOf(mainJFrame.obtainCurrencyTo());
+
+        String resultStr = "failure to obtain exchange-rate";
+
+        try {
+            double result = getExchangeRateResult(from.getIsoCode(), to.getIsoCode());
+            resultStr = String.format("%.2f", result * mainJFrame.getAmount()) + to.getSymbol();
+        } catch (IOException ex) {
+            Logger.getLogger(ExchangeCalculator.class.getName()).log(Level.WARNING, null, ex);
+        }
+
+        mainJFrame.showResultOfCalculation(resultStr);
+    }
+
 }

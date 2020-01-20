@@ -2,7 +2,6 @@
 /*
  * For questions about licensing ask.
  */
-
 /**
  *
  * @author Alex
@@ -25,29 +24,11 @@ public class main {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            
-            
-        Currency[] currencies = Currency.values();
-        String[] str = new String[currencies.length];
+        new ExchangeCalculator().execute();
 
-        for (int i = 0; i < currencies.length; i++) {
-            str[i] = currencies[i].getIsoCode();
-        }
-            
-            new MainJFrame(str).setVisible(true);
-        });
-    } 
+    }
 }
