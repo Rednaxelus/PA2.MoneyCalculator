@@ -1,32 +1,37 @@
-package moneycalculator.model;
+package model;
+
+
 
 public enum Currency {
-    
-    EUR("EUR","euros","€"),
-    GBP("GBP","libras","£"),
-    USD("USD","dolares","$"),
-    FJD("FJD","d","2");
 
-    private String isoCode; 
-    private String name; 
-    private String symbol; 
+    EUR("EUR", "€"),
+    USD("USD", "$"),
+    CAD("CAD", "$"),
+    AUD("AUD", "$"),
+    JPY("JPY", "¥"),
+    CNY("CNY", "¥"),
+    GBP("GBP", "£");
 
-    private Currency(String isoCode, String name, String symbol) {
+    private final String isoCode;
+    private final String symbol;
+
+    private Currency(String isoCode, String symbol) {
         this.isoCode = isoCode;
-        this.name = name;
         this.symbol = symbol;
+
     }
 
     public String getIsoCode() {
         return isoCode;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getSymbol() {
         return symbol;
+    }
+
+    @Override
+    public String toString() {
+        return isoCode;
     }
 
 }
