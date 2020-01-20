@@ -1,42 +1,34 @@
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import moneycalculator.model.Currency;
+
+
 
 /*
  * For questions about licensing ask.
  */
-
 /**
  *
  * @author Alex
  */
 public class MainJFrame extends javax.swing.JFrame {
-    
-        DefaultComboBoxModel<String> df, df2;
-    MoneyCalculatorGUI moneyCalculator;
+
+    ExchangeCalculator moneyCalculator;
 
     /**
      * Creates new form MainJFrame
+     * @param currencyISOCodes
      */
-    public MainJFrame() {
+    public MainJFrame(String[] currencyISOCodes) {
         initComponents();
-        String[] str = {"EUR", "USD"};
-        df = new DefaultComboBoxModel<>(str);
-        df2 = new DefaultComboBoxModel<>(str);
 
-        jComboBox1.setModel(df);
-        jComboBox2.setModel(df2);
+        jComboBox1.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
+        jComboBox2.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
         jComboBox2.setSelectedIndex(1);
-        
-               moneyCalculator = new MoneyCalculatorGUI();
 
+        moneyCalculator = new ExchangeCalculator();
     }
-    
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,6 +52,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MoneyCalculator");
 
         jLabel1.setText("From");
 
@@ -161,54 +154,21 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            double result = 0.0;
-            System.out.println(jComboBox1.getSelectedItem().toString());
+        double result = 0.0;
+        String from = jComboBox1.getSelectedItem().toString();
+        String to = jComboBox2.getSelectedItem().toString();
+
+
         try {
-                 result = moneyCalculator.getResult(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
-            } catch (IOException ex) {
-                Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-   
-        jLabelResult.setText(        String.format("%.2f", result * Double.valueOf(jTextFieldAmount.getText())));
+            result = moneyCalculator.getResult(from, to);
+        } catch (IOException ex) {
+            Logger.getLogger(MainJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        jLabelResult.setText(String.format("%.2f", result * Double.valueOf(jTextFieldAmount.getText())) + Currency.valueOf(to).getSymbol());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
- 
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainJFrame().setVisible(true);
 
-                
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
