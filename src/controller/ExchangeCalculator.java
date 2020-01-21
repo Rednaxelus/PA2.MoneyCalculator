@@ -1,4 +1,8 @@
+package controller;
 
+
+import view.CustomObserver;
+import view.View;
 import model.Currency;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -11,26 +15,10 @@ import org.json.JSONObject;
 
 public class ExchangeCalculator implements CustomObserver {
 
-    MainJFrame mainJFrame;
+    private final View view;
 
-    void execute() {
-        mainJFrame = new MainJFrame(getCurrenciyISOCodes());
-
-        mainJFrame.setLocationRelativeTo(null);
-        mainJFrame.addObserver(this);
-        mainJFrame.setVisible(true);
-    }
-
-    private String[] getCurrenciyISOCodes() {
-        Currency[] currencies = Currency.values();
-        String[] str = new String[currencies.length];
-
-        for (int i = 0; i < currencies.length; i++) {
-            str[i] = currencies[i].getIsoCode();
-        }
-
-        return str;
-
+    public ExchangeCalculator(View view) {
+        this.view = view;
     }
 
     private double getExchangeRateResult(String from, String to) throws MalformedURLException, IOException {
@@ -62,19 +50,19 @@ public class ExchangeCalculator implements CustomObserver {
     @Override
     public void buttonPressed() {
 
-        Currency from = Currency.valueOf(mainJFrame.obtainCurrencyFrom());
-        Currency to = Currency.valueOf(mainJFrame.obtainCurrencyTo());
+        Currency from = Currency.valueOf(view.obtainCurrencyFrom());
+        Currency to = Currency.valueOf(view.obtainCurrencyTo());
 
         String resultStr = "failure to obtain exchange-rate";
 
         try {
             double result = getExchangeRateResult(from.getIsoCode(), to.getIsoCode());
-            resultStr = String.format("%.2f", result * mainJFrame.getAmount()) + to.getSymbol();
+            resultStr = String.format("%.2f", result * view.getAmount()) + to.getSymbol();
         } catch (IOException ex) {
             Logger.getLogger(ExchangeCalculator.class.getName()).log(Level.WARNING, null, ex);
         }
 
-        mainJFrame.showResultOfCalculation(resultStr);
+        view.showResultOfCalculation(resultStr);
     }
 
 }

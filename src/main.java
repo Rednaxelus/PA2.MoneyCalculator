@@ -1,4 +1,9 @@
 
+import controller.ExchangeCalculator;
+import view.MainJFrame;
+import model.Currency;
+
+
 /*
  * For questions about licensing ask.
  */
@@ -28,7 +33,22 @@ public class main {
             java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        new ExchangeCalculator().execute();
+        MainJFrame mainJFrame = new MainJFrame(obtainCurrencyISOCodes());
+        mainJFrame.setLocationRelativeTo(null);
+        mainJFrame.setVisible(true);
+        mainJFrame.addObserver(new ExchangeCalculator(mainJFrame));
 
     }
+
+    private static String[] obtainCurrencyISOCodes() {
+        Currency[] currencies = Currency.values();
+        String[] str = new String[currencies.length];
+
+        for (int i = 0; i < currencies.length; i++) {
+            str[i] = currencies[i].getIsoCode();
+        }
+
+        return str;
+    }
+
 }

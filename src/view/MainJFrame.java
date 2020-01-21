@@ -1,3 +1,5 @@
+package view;
+
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -9,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Alex
  */
-public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
+public class MainJFrame extends javax.swing.JFrame implements CustomObservable, View {
 
     private final ArrayList<CustomObserver> observers;
 
@@ -22,9 +24,9 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
         this.observers = new ArrayList<>();
         initComponents();
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
-        jComboBox2.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
-        jComboBox2.setSelectedIndex(1);
+        jComboBoxCurrencyFrom.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
+        jComboBoxCurrencyTo.setModel(new DefaultComboBoxModel<>(currencyISOCodes));
+        jComboBoxCurrencyTo.setSelectedIndex(1);
     }
 
     /**
@@ -39,8 +41,8 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBoxCurrencyFrom = new javax.swing.JComboBox<>();
+        jComboBoxCurrencyTo = new javax.swing.JComboBox<>();
         jTextFieldAmount = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabelResult = new javax.swing.JLabel();
@@ -55,17 +57,17 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
 
         jLabel2.setText("To");
 
-        jComboBox1.setModel(jComboBox1.getModel());
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxCurrencyFrom.setModel(jComboBoxCurrencyFrom.getModel());
+        jComboBoxCurrencyFrom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBoxCurrencyFromActionPerformed(evt);
             }
         });
 
-        jComboBox2.setModel(jComboBox2.getModel());
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxCurrencyTo.setModel(jComboBoxCurrencyTo.getModel());
+        jComboBoxCurrencyTo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                jComboBoxCurrencyToActionPerformed(evt);
             }
         });
 
@@ -102,12 +104,12 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
                     .addComponent(jTextFieldAmount))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxCurrencyFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxCurrencyTo, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -129,8 +131,8 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxCurrencyFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxCurrencyTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))))
                 .addGap(19, 19, 19))
         );
@@ -142,13 +144,13 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldAmountActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jComboBoxCurrencyFromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCurrencyFromActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboBoxCurrencyFromActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jComboBoxCurrencyToActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCurrencyToActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jComboBoxCurrencyToActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         for (CustomObserver observer : observers) {
@@ -159,8 +161,8 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBoxCurrencyFrom;
+    private javax.swing.JComboBox<String> jComboBoxCurrencyTo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -169,19 +171,23 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable {
     private javax.swing.JTextField jTextFieldAmount;
     // End of variables declaration//GEN-END:variables
 
-    String obtainCurrencyFrom() {
-        return jComboBox1.getSelectedItem().toString();
+    @Override
+    public String obtainCurrencyFrom() {
+        return jComboBoxCurrencyFrom.getSelectedItem().toString();
     }
 
-    String obtainCurrencyTo() {
-        return jComboBox2.getSelectedItem().toString();
+    @Override
+    public String obtainCurrencyTo() {
+        return jComboBoxCurrencyTo.getSelectedItem().toString();
     }
 
-    void showResultOfCalculation(String result) {
+    @Override
+    public void showResultOfCalculation(String result) {
         jLabelResult.setText(result);
     }
 
-    double getAmount() {
+    @Override
+    public double getAmount() {
         return Double.valueOf(jTextFieldAmount.getText());
     }
 
