@@ -8,7 +8,7 @@ package view;
  *
  * @author Alex
  */
-public interface View extends CustomObservable{
+public interface View{
 
     public String obtainCurrencyFrom();
 

@@ -1,7 +1,9 @@
 
-import controller.ExchangeCalculator;
+import presenter.CalculationDelegation;
 import view.MainJFrame;
 import model.Currency;
+import view.APIExchangeRateLoader;
+import view.ExchangeRateCalculator;
 
 
 /*
@@ -33,22 +35,11 @@ public class main {
             java.util.logging.Logger.getLogger(MainJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        MainJFrame mainJFrame = new MainJFrame(obtainCurrencyISOCodes());
+        MainJFrame mainJFrame = new MainJFrame(Currency.obtainCurrencyISOCodes());
         mainJFrame.setLocationRelativeTo(null);
         mainJFrame.setVisible(true);
-        mainJFrame.addObserver(new ExchangeCalculator(mainJFrame));
+        mainJFrame.addObserver(new CalculationDelegation(mainJFrame, new APIExchangeRateLoader(), new ExchangeRateCalculator()));
 
-    }
-
-    private static String[] obtainCurrencyISOCodes() {
-        Currency[] currencies = Currency.values();
-        String[] str = new String[currencies.length];
-
-        for (int i = 0; i < currencies.length; i++) {
-            str[i] = currencies[i].getIsoCode();
-        }
-
-        return str;
     }
 
 }

@@ -1,8 +1,8 @@
 package view;
 
-
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import presenter.CustomObserver;
 
 /*
  * For questions about licensing ask.
@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author Alex
  */
-public class MainJFrame extends javax.swing.JFrame implements CustomObservable, View {
+public class MainJFrame extends javax.swing.JFrame implements View, CustomObservable{
 
     private final ArrayList<CustomObserver> observers;
 
@@ -153,9 +153,9 @@ public class MainJFrame extends javax.swing.JFrame implements CustomObservable, 
     }//GEN-LAST:event_jComboBoxCurrencyToActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for (CustomObserver observer : observers) {
+        observers.forEach((CustomObserver observer) -> {
             observer.buttonPressed();
-        }
+        });
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

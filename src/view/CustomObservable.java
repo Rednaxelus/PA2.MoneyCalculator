@@ -1,6 +1,11 @@
 package view;
 
 
+import presenter.CustomObserver;
+
+
+
+
 
 /*
  * For questions about licensing ask.
@@ -9,7 +14,7 @@ package view;
  *
  * @author Alex
  */
-interface CustomObservable {
+public interface CustomObservable {
 
     void addObserver(CustomObserver observer);
 }

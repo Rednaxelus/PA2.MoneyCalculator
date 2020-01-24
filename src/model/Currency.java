@@ -1,7 +1,5 @@
 package model;
 
-
-
 public enum Currency {
 
     EUR("EUR", "€"),
@@ -29,9 +27,15 @@ public enum Currency {
         return symbol;
     }
 
-    @Override
-    public String toString() {
-        return isoCode;
+    public static String[] obtainCurrencyISOCodes() {
+        Currency[] currencies = Currency.values();
+        String[] str = new String[currencies.length];
+
+        for (int i = 0; i < currencies.length; i++) {
+            str[i] = currencies[i].getIsoCode();
+        }
+
+        return str;
     }
 
 }
